@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Основные цвета -->
+    <SolidColorBrush x:Key="BackgroundColor" Color="White"/>
+    <SolidColorBrush x:Key="ForegroundColor" Color="Black"/>
+    
+    <!-- Заголовки таблицы -->
+    <SolidColorBrush x:Key="HeaderBackground" Color="#777777"/>
+    <SolidColorBrush x:Key="HeaderForeground" Color="Black"/>
+
+    <!-- Скроллбар -->
+    <SolidColorBrush x:Key="ScrollBarBackground" Color="Transparent"/>
+    <SolidColorBrush x:Key="ScrollBarThumb" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ScrollBarThumbHover" Color="Gray"/>
+    
+</ResourceDictionary>

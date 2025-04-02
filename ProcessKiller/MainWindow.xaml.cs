@@ -1,73 +1,71 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace ProcessKiller
+namespace ProcessKiller;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    private bool _isDarkTheme = false;
+    private ResourceDictionary _currentTheme = Application.Current.Resources.MergedDictionaries
+        .FirstOrDefault(d => d.Source != null && 
+                             (d.Source.OriginalString.Contains("DarkColors.xaml") || 
+                              d.Source.OriginalString.Contains("Colors.xaml")));
+    
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-            LoadProcesses();
-        }
+        InitializeComponent();
+    }
 
-        private void LoadProcesses()
-        {
-            var processes = Process.GetProcesses().OrderBy(p => p.ProcessName)
-                .Select(p => new ProcessInfo
-                {
-                    Id = p.Id,
-                    ProcessName = p.ProcessName,
-                    Icon = GetProcessIcon(p)
-                }).ToList();
-            ProcessList.ItemsSource = processes;
-        }
+    private void Refresh_Click(object sender, RoutedEventArgs e)
+    {
+        processListView.RefreshProcesses();
+    }
 
-        private BitmapSource GetProcessIcon(Process process)
+    private void KillProcess_Click(object sender, RoutedEventArgs e)
+    {
+        processListView.KillSelectedProcess();
+    }
+    
+    private void SwitchTheme_Click(object sender, RoutedEventArgs e)
+    {
+        if (_isDarkTheme)
         {
-            try
+            SwitchTheme(true);
+            _isDarkTheme = false;
+        }
+        else
+        {
+            SwitchTheme(false);
+            _isDarkTheme = true;
+        }
+    }
+    
+    private void SwitchTheme(bool isDark)
+    {
+        string themePath = isDark ? "Themes/Colors.xaml" : "Themes/DarkColors.xaml";
+
+        var newTheme = new ResourceDictionary { Source = new Uri(themePath, UriKind.Relative) };
+
+        if (_currentTheme != null)
+        {
+            int index = Application.Current.Resources.MergedDictionaries.IndexOf(_currentTheme);
+            if (index != -1)
             {
-                using (Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(process.MainModule.FileName))
-                {
-                    return System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-                        icon.Handle, System.Windows.Int32Rect.Empty,
-                        BitmapSizeOptions.FromEmptyOptions());
-                }
+                Application.Current.Resources.MergedDictionaries[index] = newTheme;
             }
-            catch
+            else
             {
-                return null;
-            }
-        }
-
-        private void KillProcess_Click(object sender, RoutedEventArgs e)
-        {
-            if (ProcessList.SelectedItem is ProcessInfo selectedProcess)
-            {
-                try
-                {
-                    var process = Process.GetProcessById(selectedProcess.Id);
-                    process.Kill();
-                    process.WaitForExit();
-                    LoadProcesses(); // Обновляем список процессов
-                }
-                catch (ArgumentException)
-                {
-                    // Процесс уже завершен, можно просто обновить список
-                    LoadProcesses();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                Application.Current.Resources.MergedDictionaries.Add(newTheme);
             }
         }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        else
         {
-            LoadProcesses();
+            Application.Current.Resources.MergedDictionaries.Add(newTheme);
         }
+
+        _currentTheme = newTheme; // Запоминаем текущую тему
     }
 }
