@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="{DynamicResource BackgroundColor}">
     <Grid>
-        <ListView x:Name="ProcessList"
+        <ListView x:Name="processListView"
                   ItemsSource="{Binding Processes}"
+                  SelectedItem="{Binding SelectedProcess, Mode=TwoWay}" 
                   Background="{DynamicResource BackgroundColor}"
                   Foreground="{DynamicResource ForegroundColor}"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">

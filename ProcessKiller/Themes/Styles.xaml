@@ -39,6 +39,19 @@
         <Setter Property="Foreground" Value="{DynamicResource HeaderForeground}" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ForegroundColor}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewColumnHeader">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0,3,0,3"
+                            Padding="{TemplateBinding Padding}"> <!-- Добавляем Padding сюда -->
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- Стили ScrollViewer -->
@@ -82,13 +95,64 @@
         </Setter>
     </Style>
 
+    <!-- Стили ListView -->
     <Style TargetType="ListView">
         <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundColor}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ForegroundColor}" />
-        <Setter Property="BorderThickness" Value="3" /> <!-- Добавляем границу -->
+        <Setter Property="BorderThickness" Value="3" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="5" />
     </Style>
+
+    <!-- Стили ListViewItem -->
+    <Style TargetType="ListViewItem">
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundColor}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ForegroundColor}" />
+        <Setter Property="BorderThickness" Value="0,0,0,3" /> <!-- Разделитель снизу -->
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <GridViewRowPresenter x:Name="RowPresenter" Content="{TemplateBinding Content}"
+                                              Columns="{TemplateBinding GridView.ColumnCollection}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Наведение (Hover) -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource ListItemHoverBackground}" />
+                        </Trigger>
+                        <!-- Выбранный элемент -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource ListItemSelectedBackground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu Background="{DynamicResource BackgroundColor}"
+                             Foreground="{DynamicResource ForegroundColor}">
+                    <MenuItem Header="Закрыть процесс"
+                              Command="{Binding DataContext.ProcessList.KillProcessCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                              CommandParameter="{Binding}" />
+                    <MenuItem Header="Открыть расположение файла"
+                              Command="{Binding DataContext.ProcessList.OpenFileLocationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                              CommandParameter="{Binding}" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

@@ -6,12 +6,19 @@
     <SolidColorBrush x:Key="ForegroundColor" Color="Black"/>
     
     <!-- Заголовки таблицы -->
-    <SolidColorBrush x:Key="HeaderBackground" Color="#777777"/>
+    <SolidColorBrush x:Key="HeaderBackground" Color="LightGray"/>
     <SolidColorBrush x:Key="HeaderForeground" Color="Black"/>
 
     <!-- Скроллбар -->
     <SolidColorBrush x:Key="ScrollBarBackground" Color="Transparent"/>
     <SolidColorBrush x:Key="ScrollBarThumb" Color="DarkGray"/>
     <SolidColorBrush x:Key="ScrollBarThumbHover" Color="Gray"/>
+
+    <!-- Стили для элементов ListView -->
+    <SolidColorBrush x:Key="ListItemHoverBackground" Color="#E0E0E0"/> <!-- Цвет при наведении -->
+    <SolidColorBrush x:Key="ListItemHoverForeground" Color="Black"/>
+
+    <SolidColorBrush x:Key="ListItemSelectedBackground" Color="#C0C0C0"/> <!-- Цвет при выделении -->
+    <SolidColorBrush x:Key="ListItemSelectedForeground" Color="Black"/>
     
 </ResourceDictionary>

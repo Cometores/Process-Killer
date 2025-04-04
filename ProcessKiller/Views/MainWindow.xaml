@@ -22,13 +22,20 @@
 
         <controls:WindowTitleBar Grid.Row="0"/>
 
-        <views:ProcessListView x:Name="processListView" Grid.Row="1"/>
+        <!-- Привязка DataContext исправлена -->
+        <views:ProcessListView Grid.Row="1" DataContext="{Binding ProcessList}"/>
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Switch Theme" Click="SwitchTheme_Click" Width="100" Margin="5" />
-            <Button Content="Refresh" Click="Refresh_Click" Margin="5"/>
-            <Button Content="Kill Process" Click="KillProcess_Click" Margin="5"/>
+            <Button Content="Switch Theme"
+                    Command="{Binding SwitchThemeCommand}" 
+                    Width="100" Margin="5"/>
+            <Button Content="Refresh"
+                    Command="{Binding ProcessList.RefreshCommand}" 
+                    Margin="5"/>
+            <Button Content="Kill Process"
+                    Command="{Binding ProcessList.KillProcessCommand}" 
+                    CommandParameter="{Binding ProcessList.SelectedProcess}" 
+                    Margin="5"/>
         </StackPanel>
-        
     </Grid>
 </Window>
