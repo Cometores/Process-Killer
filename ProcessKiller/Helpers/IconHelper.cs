@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace ProcessKiller;
+namespace ProcessKiller.Helpers;
 
 public static class IconHelper
 {

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using ProcessKiller.Helpers;
 using ProcessKiller.Models;
 
 namespace ProcessKiller.ViewModels
